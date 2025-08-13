@@ -5,21 +5,20 @@ pipeline {
         nodejs 'nodejs-24-5-0'
     }
     stages{
-        stage ('Installing Dependencies') {
+            stage ('Installing Dependencies') {
             steps{
                 sh 'npm install --no-audit'
             }
-        }
+            }
 
-         stage ('Dependency Scanning') {
+            stage ('Dependency Scanning') {
              parallel {
-            steps{
-                sh '''
+                steps {
+                       sh '''
                             npm audit --audit-level=critical
                             echo $?
                         '''
-            }
-        }
+                }
 
         stage('OWASP Dependency Check') {
                     steps {
@@ -31,8 +30,9 @@ pipeline {
                             --prettyPrint''', odcInstallation: 'OWASP-DepCheck-10'
 
                         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+                    }
+           }
         }
-        }
-        }
+      }
     }
 }    
