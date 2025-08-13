@@ -12,8 +12,7 @@ pipeline {
             }
         }
 
-        stage ('Dependency Scanning') {
-               stage('NPM Audit') {
+        stage('NPM Audit') {
                     steps {
                         sh '''
                             npm audit --audit-level=critical
@@ -21,7 +20,7 @@ pipeline {
                         '''
                     }
                 }
-                stage('OWASP Dependency Check') {
+        stage('OWASP Dependency Check') {
                     steps {
                         dependencyCheck additionalArguments: '''
                             --scan './' 
@@ -35,4 +34,4 @@ pipeline {
                 }
             }
         }
-    }
+    
