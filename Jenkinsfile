@@ -11,8 +11,10 @@ pipeline {
                 sh 'npm install --no-audit'
             }
         }
-
-        stage('NPM Audit') {
+        
+        stage ('parallel Dependency scanning') {
+             parallel {
+           stage('NPM Audit') {
                     steps {
                         sh '''
                             npm audit --audit-level=critical
@@ -32,6 +34,8 @@ pipeline {
                         dependencyCheckPublisher failedTotalCritical: 6, pattern: 'dependency-check-report.xml', stopBuild: false
                     }
                 }
+             }
+        }
             }
         }
     
