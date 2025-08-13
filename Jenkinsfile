@@ -36,9 +36,9 @@ pipeline {
                 }
              }
         }
-        stage('Unit Testing') {
+        stage('run coverage') {
             steps {
-                    sh 'npm test'
+                    sh 'npm run coverage'
             }
         }    
     }
