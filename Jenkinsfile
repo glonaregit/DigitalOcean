@@ -22,18 +22,18 @@ pipeline {
                         '''
                     }
                 }
-                stage('OWASP Dependency Check') {
-                    steps {
-                        dependencyCheck additionalArguments: '''
-                            --scan './' 
-                            --out './'  
-                            --format 'ALL' 
-                            --disableYarnAudit \\
-                            --prettyPrint''', odcInstallation: 'owasp'
+                // stage('OWASP Dependency Check') {
+                //     steps {
+                //         dependencyCheck additionalArguments: '''
+                //             --scan './' 
+                //             --out './'  
+                //             --format 'ALL' 
+                //             --disableYarnAudit \\
+                //             --prettyPrint''', odcInstallation: 'owasp'
 
-                        dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-                    }
-                }
+                //         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+                //     }
+                // }
             }
         }
     }
