@@ -13,8 +13,7 @@ pipeline {
         }
 
         stage ('Dependency Scanning') {
-            parallel {
-                stage('NPM Audit') {
+               stage('NPM Audit') {
                     steps {
                         sh '''
                             npm audit --audit-level=critical
@@ -22,19 +21,18 @@ pipeline {
                         '''
                     }
                 }
-                // stage('OWASP Dependency Check') {
-                //     steps {
-                //         dependencyCheck additionalArguments: '''
-                //             --scan './' 
-                //             --out './'  
-                //             --format 'ALL' 
-                //             --disableYarnAudit \\
-                //             --prettyPrint''', odcInstallation: 'owasp'
+                stage('OWASP Dependency Check') {
+                    steps {
+                        dependencyCheck additionalArguments: '''
+                            --scan './' 
+                            --out './'  
+                            --format 'ALL' 
+                            --disableYarnAudit \\
+                            --prettyPrint''', odcInstallation: 'owasp'
 
-                //         dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
-                //     }
-                // }
+                        dependencyCheckPublisher failedTotalCritical: 1, pattern: 'dependency-check-report.xml', stopBuild: false
+                    }
+                }
             }
         }
     }
-}
